@@ -56,7 +56,7 @@
     <thead>
     <tr class="text-center table-dark">
       <th>번호</th>
-      <th style="width:40%">제목</th>
+      <th style="width:60%">제목</th>
       <th>글쓴이</th>
       <th>작성일시</th>
     </tr>
@@ -68,7 +68,7 @@
         <td class="text-start">
           <a use:link href="/detail/{question.id}">{question.subject}</a>
           {#if question.answers.length > 0}
-          <span class="text-danger small mx-2">{question.answers.length}</span>
+          <span class="text-danger small mx-2">[{question.answers.length}]</span>
           {/if}
         </td>
         <td>{ question.user ? question.user.username : "" }</td>
