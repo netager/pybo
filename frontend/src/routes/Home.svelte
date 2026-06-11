@@ -59,7 +59,6 @@
       <th style="width:40%">제목</th>
       <th>글쓴이</th>
       <th>작성일시</th>
-      <th>수정일시</th>
     </tr>
     </thead>
     <tbody>
@@ -74,7 +73,6 @@
         </td>
         <td>{ question.user ? question.user.username : "" }</td>
         <td>{moment(question.create_date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
-        <td>{moment(question.modify_date).format("YYYY년 MM월 DD일 hh:mm a")}</td>
       </tr>
     {/each}
     </tbody>
