@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import declarative_base, sessionmaker
+from starlette.config import Config
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./myapi.db"
+config = Config('.env')
+SQLALCHEMY_DATABASE_URL = config('SQLALCHEMY_DATABASE_URL')
 
 # create_engine(): 데이터베이스 커넥션 풀을 생성
 # 커넥션 풀이란 데이터베이스에 접속하는 객체를 일정 갯수만큼 만들어 놓고 돌려가며 사용하는 것

@@ -9,16 +9,20 @@ from jose import jwt, JWTError
 
 from sqlalchemy.orm import Session
 from starlette import status
+from starlette.config import Config
 
 from database import get_db, get_db_async
 from domain.user import user_schema, user_crud
 from domain.user.user_crud import verify_password
 
+config = Config('.env')
+
 # 토큰의 유효기간(분)
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
+ACCESS_TOKEN_EXPIRE_MINUTES = int(config('ACCESS_TOKEN_EXPIRE_MINUTES'))
 
 # 암호화시 사용하는 64자리의 랜덤한 문자열 - 노출 되면 안됨.
-SECRET_KEY = "4ab2fce7a6bd79e1c014396315ed322dd6edb1c5d975c6b74a2904135172c03c"
+SECRET_KEY = config('SECRET_KEY')
+
 
 # 토큰 생성시 사용하는 알고리즘(HS256: HMAC + SHA-256)
 # header.payload.signature: xxxxx.yyyyy.zzzzz
