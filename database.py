@@ -4,13 +4,30 @@ from starlette.config import Config
 
 config = Config('.env')
 SQLALCHEMY_DATABASE_URL = config('SQLALCHEMY_DATABASE_URL')
+# ASYNC_SQLALCHEMY_DATABASE_URL = config('ASYNC_SQLALCHEMY_DATABASE_URL')
 
 # create_engine(): 데이터베이스 커넥션 풀을 생성
 # 커넥션 풀이란 데이터베이스에 접속하는 객체를 일정 갯수만큼 만들어 놓고 돌려가며 사용하는 것
 # 커넥션 풀은 데이터베이스에 접속하는 세션수를 제어하고, 세션 접속에 소요되는 시간을 줄이고자흔 용도로 사용
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# Async 
+# -----
+# engine = create_engine(
+#     ASYNC_SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+# )
+# Sync
+# ----
+# connect_args={"check_same_thread": False} 속성은 
+# SQLite 데이터베이스를 사용하기 위해 적용하는 속성이다. 
+# 그런데 PostgreSQL 데이터베이스를 사용할 때는 위의 속성을 사용하면 안된다. 
+# 위 속성을 사용할 경우에는 데이터베이스에 접속할 수 없다는 오류가 발생한다.
+if SQLALCHEMY_DATABASE_URL.startswith('sqlite'):
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    )
+else:
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL
+    )
 
 # 데이터베이스에 접속하기 위한 필요한 클래스
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
